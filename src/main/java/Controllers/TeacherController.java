@@ -1,10 +1,6 @@
 package Controllers;
 
-import Classes.Course;
-import Classes.Student;
 import Classes.Teacher;
-import DAO.CourseDAO;
-import DAO.StudentDAO;
 import DAO.TeacherDAO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +19,10 @@ public class TeacherController {
         teacherDAO.addTeacher(name,Integer.parseInt(roll));
 
         ModelAndView mv = new ModelAndView();
-        mv.addObject("Placeholder","Teacher");
+        mv.addObject("Placeholder","Teacher added");
         mv.addObject("name",name);
         mv.addObject("roll",roll);
-        mv.setViewName("addedStudent");
+        mv.setViewName("addedTeacher");
         return mv;
     }
 
@@ -48,8 +44,8 @@ public class TeacherController {
         TeacherDAO teacherDAO = new TeacherDAO();
         teacherDAO.editTeacher(roll,name);
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("editedStudent");
-        mv.addObject("Placeholder","Teacher");
+        mv.setViewName("addedTeacher");
+        mv.addObject("Placeholder","Teacher edited");
         mv.addObject("name",name);
         mv.addObject("roll",roll);
         return mv;

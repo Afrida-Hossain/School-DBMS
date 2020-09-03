@@ -21,10 +21,10 @@ public class CourseController {
         courseDAO.addCourseTeacher(name, teacherID);
 
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("addedStudent");
-        mv.addObject("Placeholder","Course");
+        mv.setViewName("addedCourse");
+        mv.addObject("Placeholder","Course teacher added");
         mv.addObject("name",name);
-        mv.addObject("teacherID",teacherID);
+        mv.addObject("id",teacherID);
 
         return mv;
     }
@@ -36,10 +36,10 @@ public class CourseController {
         courseDAO.addCourseStudent(name, studentID);
 
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("addedStudent");
-        mv.addObject("Placeholder","Course");
+        mv.setViewName("addedCourse");
+        mv.addObject("Placeholder","Course student added");
         mv.addObject("name",name);
-        mv.addObject("teacherID",studentID);
+        mv.addObject("id",studentID);
 
         return mv;
     }
@@ -50,8 +50,9 @@ public class CourseController {
         CourseDAO courseDAO = new CourseDAO();
         courseDAO.addCourse(name);
 
-        ModelAndView mv = new ModelAndView("addedStudent");
-        mv.addObject("Placeholder","Course");
+        ModelAndView mv = new ModelAndView("addedCourse");
+        mv.addObject("Placeholder","Course added");
+        mv.addObject("name",name);
         return mv;
     }
 
@@ -61,8 +62,9 @@ public class CourseController {
         CourseDAO courseDAO = new CourseDAO();
         courseDAO.deleteCourse(name);
 
-        ModelAndView mv = new ModelAndView("deletedStudent");
-        mv.addObject("Placeholder","Course");
+        ModelAndView mv = new ModelAndView("addedCourse");
+        mv.addObject("Placeholder","Course Deleted");
+        mv.addObject("name",name);
         return mv;
     }
 
@@ -72,8 +74,9 @@ public class CourseController {
         CourseDAO courseDAO = new CourseDAO();
         courseDAO.removeTeacher(courseName);
 
-        ModelAndView mv = new ModelAndView("deletedStudent");
-        mv.addObject("Placeholder","Teacher for course");
+        ModelAndView mv = new ModelAndView("addedCourse");
+        mv.addObject("Placeholder","Removed teacher for course");
+        mv.addObject("name",courseName);
         return mv;
     }
 
