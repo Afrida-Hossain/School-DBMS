@@ -16,9 +16,9 @@
     <h2>Add teachers information: </h2>
     <form action="teacherAdd">
         <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br>
+        <input type="text" id="name" name="name" placeholder="Enter Name"><br>
         <label for="roll">Id:</label><br>
-        <input type="text" id="roll" name="roll"><br>
+        <input type="text" id="roll" name="roll" placeholder="Enter ID"><br>
         <input type="submit">
     </form>
 

@@ -1,11 +1,11 @@
 package Classes;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 public class Course {
@@ -18,7 +18,7 @@ public class Course {
     @ManyToOne
     private Teacher teacher;
 
-    @ManyToMany(mappedBy = "course")
+    @ManyToMany(mappedBy = "course", fetch = FetchType.EAGER)
     private List<Student> student =new ArrayList<>();
 
     public List<Student> getStudent() {
@@ -28,14 +28,6 @@ public class Course {
     public void setStudent(List<Student> student) {
         this.student = student;
     }
-
-/*    public int getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }*/
 
     public String getCourseName() {
         return courseName;

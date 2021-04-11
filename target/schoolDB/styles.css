@@ -52,3 +52,11 @@ li {
 table, th, td {
     border: 1px solid black;
 }
+
+.error {
+    display: flex;
+    flex-direction: column;
+    font-size: 1em;
+    color:red;
+}
+

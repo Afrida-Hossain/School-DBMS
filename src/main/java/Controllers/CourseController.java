@@ -4,6 +4,7 @@ import Classes.Course;
 import Classes.Teacher;
 import DAO.CourseDAO;
 import DAO.TeacherDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,17 +15,30 @@ import java.util.List;
 @Controller
 public class CourseController {
 
+    @Autowired
+    private ModelAndView mv;
+    private CourseDAO courseDAO;
+    private boolean successful;
+
+    public CourseController(){
+        courseDAO = new CourseDAO();
+    }
+
     @RequestMapping("/addCourseTeacher")
     public ModelAndView addCourseTeacher(@RequestParam("name") String name, @RequestParam("teacherID") int teacherID){
 
-        CourseDAO courseDAO = new CourseDAO();
-        courseDAO.addCourseTeacher(name, teacherID);
+        successful = courseDAO.addCourseTeacher(name, teacherID);
 
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("addedCourse");
-        mv.addObject("Placeholder","Course teacher added");
-        mv.addObject("name",name);
-        mv.addObject("id",teacherID);
+        if(successful){
+            mv.setViewName("addedCourse");
+            mv.addObject("Placeholder","Course teacher added");
+            mv.addObject("name",name);
+            mv.addObject("id",teacherID);
+        }
+        else {
+            mv.setViewName("operationFailed");
+            mv.addObject("primaryKey","CourseName or TeacherID");
+        }
 
         return mv;
     }
@@ -32,14 +46,18 @@ public class CourseController {
     @RequestMapping("/addCourseStudent")
     public ModelAndView addCourseStudent(@RequestParam("name") String name, @RequestParam("studentID") int studentID){
 
-        CourseDAO courseDAO = new CourseDAO();
-        courseDAO.addCourseStudent(name, studentID);
+        successful = courseDAO.addCourseStudent(name, studentID);
 
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("addedCourse");
-        mv.addObject("Placeholder","Course student added");
-        mv.addObject("name",name);
-        mv.addObject("id",studentID);
+        if(successful){
+            mv.setViewName("addedCourse");
+            mv.addObject("Placeholder","Course student added");
+            mv.addObject("name",name);
+            mv.addObject("id",studentID);
+        }
+        else {
+            mv.setViewName("operationFailed");
+            mv.addObject("primaryKey","CourseName or Roll");
+        }
 
         return mv;
     }
@@ -47,46 +65,62 @@ public class CourseController {
     @RequestMapping("/addCourse")
     public ModelAndView addCourse(@RequestParam("courseName") String name){
 
-        CourseDAO courseDAO = new CourseDAO();
-        courseDAO.addCourse(name);
+       successful = courseDAO.addCourse(name);
 
-        ModelAndView mv = new ModelAndView("addedCourse");
-        mv.addObject("Placeholder","Course added");
-        mv.addObject("name",name);
+        if(successful){
+            mv.setViewName("addedCourse");
+            mv.addObject("Placeholder","Course added");
+            mv.addObject("name",name);
+        }
+        else {
+            mv.setViewName("operationFailed");
+            mv.addObject("primaryKey","CourseName");
+        }
+
         return mv;
     }
 
     @RequestMapping("/deleteCourse")
     public ModelAndView deleteCourse(@RequestParam("courseName") String name){
 
-        CourseDAO courseDAO = new CourseDAO();
-        courseDAO.deleteCourse(name);
+        successful = courseDAO.deleteCourse(name);
 
-        ModelAndView mv = new ModelAndView("addedCourse");
-        mv.addObject("Placeholder","Course Deleted");
-        mv.addObject("name",name);
+        if(successful){
+            mv.setViewName("addedCourse");
+            mv.addObject("Placeholder","Course Deleted");
+            mv.addObject("name",name);
+        }
+        else {
+            mv.setViewName("operationFailed");
+            mv.addObject("primaryKey","CourseName");
+        }
+
         return mv;
     }
 
     @RequestMapping("/removeCourseTeacher")
     public ModelAndView removeCourseTeacher(@RequestParam("name") String courseName){
 
-        CourseDAO courseDAO = new CourseDAO();
-        courseDAO.removeTeacher(courseName);
+        successful = courseDAO.removeTeacher(courseName);
 
-        ModelAndView mv = new ModelAndView("addedCourse");
-        mv.addObject("Placeholder","Removed teacher for course");
-        mv.addObject("name",courseName);
+        if(successful){
+            mv.setViewName("addedCourse");
+            mv.addObject("Placeholder","Removed teacher for course");
+            mv.addObject("name",courseName);
+        }
+        else {
+            mv.setViewName("operationFailed");
+            mv.addObject("primaryKey","TeacherID");
+        }
+
         return mv;
     }
 
     @RequestMapping("/viewAllCourses")
     public ModelAndView viewAllCourses(){
 
-        CourseDAO courseDAO = new CourseDAO();
         List<Course> courses= courseDAO.getCourseList();
 
-        ModelAndView mv = new ModelAndView();
         mv.setViewName("allCourses");
         mv.addObject("Placeholder","Courses");
         mv.addObject("AllCourses",courses);
@@ -96,14 +130,13 @@ public class CourseController {
     @RequestMapping("/loadCoursePage")
     public ModelAndView loadCoursePage(){
 
-        CourseDAO courseDAO = new CourseDAO();
         List<Course> courses = courseDAO.getCourseList();
         List<Course> courseWithTeacher = courseDAO.getCourseWithTeacherList();
 
         TeacherDAO teacherDAO = new TeacherDAO();
         List<Teacher> teachers = teacherDAO.getTeacherList();
 
-        ModelAndView mv = new ModelAndView("coursePage");
+        mv.setViewName("coursePage");
         mv.addObject("CourseWithTeacher",courseWithTeacher);
         mv.addObject("CourseName",courses);
         mv.addObject("Teachers",teachers);

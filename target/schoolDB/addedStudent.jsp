@@ -17,8 +17,8 @@
 <h1>${Placeholder} added successfully! ${Placeholder} details:</h1>
 
 <p>
-    Name: ${name}<br>
-    Roll: ${roll}<br>
+    Name: ${Object.name}<br>
+    Roll: ${Object.roll}<br>
 </p>
 
 </body>
